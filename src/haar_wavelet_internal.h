@@ -1,5 +1,5 @@
-#ifndef __WAVELETS_INTERNAL_H__
-#define __WAVELETS_INTERNAL_H__
+#ifndef __HAAR_WAVELET_INTERNAL_H__
+#define __HAAR_WAVELET_INTERNAL_H__
 
 #include <stdlib.h>
 #include <stddef.h>

@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <math.h>
 
-#include "wavelets.h"
+#include "haar_wavelet.h"
 
 #define ARRAY_SIZE 16
 #define ALTERNATE_ARRAY_SIZE 25

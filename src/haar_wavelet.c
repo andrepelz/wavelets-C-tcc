@@ -1,5 +1,5 @@
-#include "wavelets.h"
-#include "wavelets_internal.h"
+#include "haar_wavelet.h"
+#include "haar_wavelet_internal.h"
 
 #include <stdio.h>
 #include <math.h>

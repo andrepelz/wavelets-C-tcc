@@ -1,4 +1,4 @@
-#include "wavelets_internal.h"
+#include "haar_wavelet_internal.h"
 
 double* haar_step_transform(double *data, double* end) {
     double *out = data;
