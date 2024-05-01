@@ -11,4 +11,15 @@ typedef struct WaveletTransformResult {
     uint16_t depth;
 } DwtResult;
 
+typedef struct Wavelet {
+    char* name;
+    double* dec_lo;
+    double* dec_hi;
+    double* rec_lo;
+    double* rec_hi;
+    uint16_t filter_size;
+} Wavelet;
+
+Wavelet wavelet(char* name);
+
 #endif

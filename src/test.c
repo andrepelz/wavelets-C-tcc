@@ -77,8 +77,34 @@ void alternate_test() {
     printf("\n\n");
 }
 
+void new_thing() {
+    Wavelet db2 = wavelet("db2");
+
+    printf("=== WAVELET ===\nName: %s\nFilters: \n", db2.name);
+
+    for(int i = 0; i < db2.filter_size; i++) {
+        printf("%lf", db2.dec_lo[i]);
+        printf(i == db2.filter_size - 1 ? "\n" : "\t");
+    }
+
+    for(int i = 0; i < db2.filter_size; i++) {
+        printf("%lf", db2.dec_hi[i]);
+        printf(i == db2.filter_size - 1 ? "\n" : "\t");
+    }
+
+    for(int i = 0; i < db2.filter_size; i++) {
+        printf("%lf", db2.rec_lo[i]);
+        printf(i == db2.filter_size - 1 ? "\n" : "\t");
+    }
+
+    for(int i = 0; i < db2.filter_size; i++) {
+        printf("%lf", db2.rec_hi[i]);
+        printf(i == db2.filter_size - 1 ? "\n" : "\t");
+    }
+}
+
 int main() {
-    alternate_test();
+    new_thing();
 
     return 0;
 }
