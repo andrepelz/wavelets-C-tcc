@@ -38,7 +38,7 @@ ${ODIR}/%.o: ${SDIR}/%.c ${DEPS}
 all: setup clean main
 
 setup:
-	mkdir -p obj
+	if not exist "obj" mkdir obj
 
 main: ${OBJS}
 	${CC} -o $@ $^ ${CFLAGS}
@@ -46,4 +46,4 @@ main: ${OBJS}
 .PHONY: clean
 
 clean:
-	rm -f ${ODIR}/*.o
+	del /f ${ODIR}\*.o
