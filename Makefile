@@ -24,6 +24,7 @@ _DEPS = wavelet_base.h \
     haar_wavelet.h \
     haar_wavelet_internal.h
 DEPS = $(patsubst %,${IDIR}/%,${_DEPS})
+
 _OBJS = test.o \
     wavelet_base.o \
     wavelet_base_internal.o \
