@@ -7,8 +7,7 @@
 Wavelet wavelet(char* name) {
     Wavelet result;
 
-    // result.name = name;
-    strcpy(result.name, name);
+    result.name = name;
 
     if(strcmp(name, "haar") == 0) {
         double dec_lo[HAAR_FILTER_SIZE] = { 0.7071067811865476, 0.7071067811865476 };
