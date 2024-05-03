@@ -53,3 +53,6 @@ setup_unix:
 
 main: ${OBJS}
 	${CC} -o $@ $^ ${CFLAGS}
+
+run:
+	./main.exe
