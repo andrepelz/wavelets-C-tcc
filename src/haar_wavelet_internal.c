@@ -25,12 +25,6 @@ double* haar_step_transform(double *data, double* end) {
 
     free(buffer);
 
-    for(double *iter = out; iter != end - (end - out)/2; iter++) {
-        printf("%lf\t", *iter);
-    }
-
-    printf("\n\n");
-
     return out;
 }
 
@@ -57,12 +51,6 @@ double* haar_step_inverse_transform(double *data, double* end) {
     }
     
     free(buffer);
-
-    for(double *iter = out; iter != end; iter++) {
-        printf("%lf\t", *iter);
-    }
-
-    printf("\n\n");
     
     return out;
 }

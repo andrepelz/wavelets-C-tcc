@@ -47,7 +47,7 @@ DwtResult wavedec(double *data, size_t size, Wavelet wavelet, uint16_t depth) {
 double* waverec(DwtResult data, Wavelet wavelet) {
     double *result = NULL;
     double *approx_in = NULL, *detail_in = NULL, *approx_out = NULL;
-    uint16_t curr_depth = data.depth - 1;
+    uint16_t curr_depth = data.depth;
     size_t band_size;
 
     band_size = data.original_size/pow(2, data.depth);
@@ -62,7 +62,7 @@ double* waverec(DwtResult data, Wavelet wavelet) {
         memcpy(approx_in, data.approximation, band_size*sizeof(double));
 
         while(curr_depth > 0) {
-            detail_in = data.detail[curr_depth];
+            detail_in = data.detail[curr_depth - 1];
 
             step_inverse_transform(approx_in, detail_in, &approx_out, band_size, wavelet);
 

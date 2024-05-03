@@ -5,8 +5,13 @@ void step_transform(double *approx_in, double **approx_out, double **detail_out,
     *approx_out = malloc(size/2*sizeof(double));
     *detail_out = malloc(size/2*sizeof(double));
 
-    double* scaling_coeffs = wavelet.dec_lo;
-    double* wavelet_coeffs = wavelet.dec_hi;
+    for(int i = 0; i < size/2; i++) {
+        (*approx_out)[i] = 0;
+    }
+
+    for(int i = 0; i < size/2; i++) {
+        (*detail_out)[i] = 0;
+    }
 
     int t, j, l;
 
@@ -14,21 +19,14 @@ void step_transform(double *approx_in, double **approx_out, double **detail_out,
         j = 2*t + 1;
 
         for(l = 0; l < wavelet.filter_size; l++) {
-            if(j < 0) j = size - j;
+            if(j < 0) j = size - 1;
 
-            (*approx_out)[t] = scaling_coeffs[l]*approx_in[j];
-            (*detail_out)[t] = wavelet_coeffs[l]*approx_in[j];
+            (*approx_out)[t] += wavelet.scaling_filter[l]*approx_in[j];
+            (*detail_out)[t] += wavelet.wavelet_filter[l]*approx_in[j];
 
             j--;
         }
     }
-
-    for(int i = 0; i < size/2; i++) {
-        double temp = (*approx_out)[i];
-        printf("%lf\t", temp);
-    }
-
-    printf("\n\n");
 }
 
 void step_inverse_transform(double *approx_in, double *detail_in, double **approx_out, size_t size, Wavelet wavelet) {
@@ -38,8 +36,8 @@ void step_inverse_transform(double *approx_in, double *detail_in, double **appro
         (*approx_out)[i] = 0;
     }
 
-    double* scaling_coeffs = wavelet.rec_lo;
-    double* wavelet_coeffs = wavelet.rec_hi;
+    double* scaling_coeffs = wavelet.scaling_filter;
+    double* wavelet_coeffs = wavelet.wavelet_filter;
 
     int t, j, l;
 
@@ -47,24 +45,14 @@ void step_inverse_transform(double *approx_in, double *detail_in, double **appro
         j = t;
 
         for(l = 0; l < wavelet.filter_size; l++) {
-            j = j%size;
+            j = j%(2*size);
 
-            double buffer = (j%2 == 1 ? approx_in[j/2] : 0);
+            double approx_buffer = wavelet.scaling_filter[l]*(j%2 == 1 ? approx_in[(j - 1)/2] : 0);
+            double detail_buffer = wavelet.wavelet_filter[l]*(j%2 == 1 ? detail_in[(j - 1)/2] : 0);
 
-            // (*approx_out)[t] = scaling_coeffs[l]*buffer + wavelet_coeffs[l]*buffer;
-            buffer = scaling_coeffs[l]*buffer + wavelet_coeffs[l]*buffer;
-            // buffer = scaling_coeffs[l]*buffer;
-            // buffer = wavelet_coeffs[l]*buffer;
-            (*approx_out)[t] += buffer;
+            (*approx_out)[t] += approx_buffer + detail_buffer;
 
             j++;
         }
     }
-
-    for(int i = 0; i < 2*size; i++) {
-        double temp = (*approx_out)[i];
-        printf("%lf\t", temp);
-    }
-    
-    printf("\n\n");
 }

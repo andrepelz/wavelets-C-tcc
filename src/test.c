@@ -8,6 +8,7 @@
 
 #define ARRAY_SIZE 16
 #define ALTERNATE_ARRAY_SIZE 25
+#define MOTHER_WAVELET "db2"
 
 void reference_test() {
     double base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
@@ -21,15 +22,10 @@ void reference_test() {
 
     transform = haar_transform(base_arr, ARRAY_SIZE, depth);
 
-    // for(iter = transform; iter != end; iter++)
-    //     printf("%lf\t", *iter);
+    inverse_transform = haar_inverse_transform(transform, ARRAY_SIZE, depth);
 
-    printf("\n\n");
-
-    inverse_transform = haar_inverse_transform(base_arr, ARRAY_SIZE, depth);
-
-    // for(iter = inverse_transform; iter != end; iter++)
-    //     printf("%lf\t", *iter);
+    for(iter = inverse_transform; iter != end; iter++)
+        printf("%lf\t", *iter);
 
     printf("\n\n");
 }
@@ -44,21 +40,16 @@ void generic_test() {
 
     uint16_t depth = 3;
 
-    Wavelet wavelet = get_wavelet("haar");
+    Wavelet wavelet = get_wavelet(MOTHER_WAVELET);
 
     transform = wavedec(base_arr, ARRAY_SIZE, wavelet, depth);
-
-    // for(iter = transform; iter != end; iter++)
-    //     printf("%lf\t", *iter);
-
-    // printf("\n\n");
 
     inverse_transform = waverec(transform, wavelet);
 
     end = inverse_transform + ARRAY_SIZE;
 
-    // for(iter = inverse_transform; iter != end; iter++)
-    //     printf("%lf\t", *iter);
+    for(iter = inverse_transform; iter != end; iter++)
+        printf("%lf\t", *iter);
 
     printf("\n\n");
 }
@@ -113,22 +104,12 @@ void new_thing() {
     printf("=== WAVELET ===\nName: %s\nFilters: \n", db2.name);
 
     for(int i = 0; i < db2.filter_size; i++) {
-        printf("%lf", db2.dec_lo[i]);
+        printf("%lf", db2.scaling_filter[i]);
         printf(i == db2.filter_size - 1 ? "\n" : "\t");
     }
 
     for(int i = 0; i < db2.filter_size; i++) {
-        printf("%lf", db2.dec_hi[i]);
-        printf(i == db2.filter_size - 1 ? "\n" : "\t");
-    }
-
-    for(int i = 0; i < db2.filter_size; i++) {
-        printf("%lf", db2.rec_lo[i]);
-        printf(i == db2.filter_size - 1 ? "\n" : "\t");
-    }
-
-    for(int i = 0; i < db2.filter_size; i++) {
-        printf("%lf", db2.rec_hi[i]);
+        printf("%lf", db2.wavelet_filter[i]);
         printf(i == db2.filter_size - 1 ? "\n" : "\t");
     }
 }

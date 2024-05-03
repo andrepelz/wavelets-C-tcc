@@ -14,10 +14,8 @@ typedef struct WaveletTransformResult {
 
 typedef struct Wavelet {
     char* name;
-    double* dec_lo;
-    double* dec_hi;
-    double* rec_lo;
-    double* rec_hi;
+    double* scaling_filter;
+    double* wavelet_filter;
     uint16_t filter_size;
 } Wavelet;
 
