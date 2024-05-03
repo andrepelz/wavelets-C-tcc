@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include "haar_wavelet.h"
+#include "wavelet_transform.h"
 
 #define ARRAY_SIZE 16
 #define ALTERNATE_ARRAY_SIZE 25
@@ -20,15 +21,44 @@ void reference_test() {
 
     transform = haar_transform(base_arr, ARRAY_SIZE, depth);
 
-    for(iter = transform; iter != end; iter++)
-        printf("%lf\t", *iter);
+    // for(iter = transform; iter != end; iter++)
+    //     printf("%lf\t", *iter);
 
     printf("\n\n");
 
     inverse_transform = haar_inverse_transform(base_arr, ARRAY_SIZE, depth);
 
-    for(iter = inverse_transform; iter != end; iter++)
-        printf("%lf\t", *iter);
+    // for(iter = inverse_transform; iter != end; iter++)
+    //     printf("%lf\t", *iter);
+
+    printf("\n\n");
+}
+
+void generic_test() {
+    double base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+    DwtResult transform;
+    double *inverse_transform;
+
+    double *iter;
+    double *end = &base_arr[ARRAY_SIZE];
+
+    uint16_t depth = 3;
+
+    Wavelet wavelet = get_wavelet("haar");
+
+    transform = wavedec(base_arr, ARRAY_SIZE, wavelet, depth);
+
+    // for(iter = transform; iter != end; iter++)
+    //     printf("%lf\t", *iter);
+
+    // printf("\n\n");
+
+    inverse_transform = waverec(transform, wavelet);
+
+    end = inverse_transform + ARRAY_SIZE;
+
+    // for(iter = inverse_transform; iter != end; iter++)
+    //     printf("%lf\t", *iter);
 
     printf("\n\n");
 }
@@ -78,7 +108,7 @@ void alternate_test() {
 }
 
 void new_thing() {
-    Wavelet db2 = wavelet("db2");
+    Wavelet db2 = get_wavelet("db2");
 
     printf("=== WAVELET ===\nName: %s\nFilters: \n", db2.name);
 
@@ -104,7 +134,8 @@ void new_thing() {
 }
 
 int main() {
-    new_thing();
+    reference_test();
+    generic_test();
 
     return 0;
 }

@@ -4,7 +4,7 @@
 #define HAAR_FILTER_SIZE 2
 #define DB2_FILTER_SIZE 4
 
-Wavelet wavelet(char* name) {
+Wavelet get_wavelet(char* name) {
     Wavelet result;
 
     result.name = name;

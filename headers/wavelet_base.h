@@ -9,6 +9,7 @@ typedef struct WaveletTransformResult {
     double* approximation;
     double** detail;
     uint16_t depth;
+    size_t original_size;
 } DwtResult;
 
 typedef struct Wavelet {
@@ -20,6 +21,6 @@ typedef struct Wavelet {
     uint16_t filter_size;
 } Wavelet;
 
-Wavelet wavelet(char* name);
+Wavelet get_wavelet(char* name);
 
 #endif

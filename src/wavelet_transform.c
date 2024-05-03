@@ -1,65 +1,81 @@
 #include "wavelet_transform.h"
+#include "wavelet_transform_internal.h"
 
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 DwtResult wavedec(double *data, size_t size, Wavelet wavelet, uint16_t depth) {
-    double *data_copy = malloc(size*sizeof(double));
-    memcpy(data_copy, data, sizeof(size*sizeof(double)));
-
     DwtResult result;
-
-    result.detail = malloc(depth*sizeof(double*));
-    result.depth = depth;
-
-    double *approx, *detail;
+    double *approx_in = NULL, *approx_out = NULL, *detail_out = NULL;
     uint16_t curr_depth = 0;
-
-    approx = data_copy;
 
     if(size >= 2) {
         if(size/pow(2, depth - 1) < 2) {
             printf("ERROR: Transform level provided is too deep! Please provide a smaller level\n");
-            return;
+            return result;
         }
 
+        result.detail = malloc(depth*sizeof(double*));
+        result.depth = depth;
+        result.original_size = size;
+
+        approx_in = malloc(size*sizeof(double));
+        memcpy(approx_in, data, sizeof(size*sizeof(double)));
+
         while(size >= 2 && curr_depth < depth) {
-            step_transform(approx, size, detail);
+            step_transform(approx_in, &approx_out, &detail_out, size, wavelet);
+
+            free(approx_in);
+            approx_in = approx_out;
+
+            result.detail[curr_depth] = detail_out;
+
             size = size/2;
             curr_depth++;
         }
 
-        result.approximation = malloc(size*sizeof(double));
-        memcpy(result.approximation, approx, size*sizeof(double));
-
-        free(data_copy);
+        result.approximation = approx_out;
 
         return result;
     } else {
         printf("ERROR: Sample size of data provided is too small! Please provide a sample of at least 2 data points\n");
-        return;
+        return result;
     }
 }
 
-double* waverec(DwtResult data, size_t size, Wavelet wavelet, uint16_t depth) {
-    double *out, *end;
+double* waverec(DwtResult data, Wavelet wavelet) {
+    double *result = NULL;
+    double *approx_in = NULL, *detail_in = NULL, *approx_out = NULL;
+    uint16_t curr_depth = data.depth - 1;
     size_t band_size;
 
-    band_size = size/pow(2, depth - 1);
+    band_size = data.original_size/pow(2, data.depth - 1);
 
-    if(size >= 2) {
+    if(data.original_size >= 2) {
         if(band_size < 2) {
             printf("ERROR: Transform level provided is too deep! Please provide a smaller level\n");
             return NULL;
         }
 
-        while(band_size <= size) {
-            end = data + band_size;
-            out = haar_step_inverse_transform(data, end);
+        approx_in = malloc(band_size*sizeof(double));
+        memcpy(approx_in, data.approximation, sizeof(band_size*sizeof(double)));
+
+        while(curr_depth > 0) {
+            detail_in = data.detail[curr_depth];
+
+            step_inverse_transform(approx_in, detail_in, &approx_out, band_size, wavelet);
+
+            free(approx_in);
+            approx_in = approx_out;
+
             band_size = band_size*2;
+            curr_depth--;
         }
 
-        return out;
+        result = approx_out;
+
+        return result;
     } else {
         printf("ERROR: Sample size of data provided is too small! Please provide a sample of at least 2 data points\n");
         return NULL;
