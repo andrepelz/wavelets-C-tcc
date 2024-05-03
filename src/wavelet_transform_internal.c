@@ -30,9 +30,9 @@ void step_transform(double *approx_in, double **approx_out, double **detail_out,
 }
 
 void step_inverse_transform(double *approx_in, double *detail_in, double **approx_out, size_t size, Wavelet wavelet) {
-    *approx_out = malloc(2*size*sizeof(double));
+    *approx_out = malloc(size*sizeof(double));
 
-    for(int i = 0; i < 2*size; i++) {
+    for(int i = 0; i < size; i++) {
         (*approx_out)[i] = 0;
     }
 
@@ -41,11 +41,11 @@ void step_inverse_transform(double *approx_in, double *detail_in, double **appro
 
     int t, j, l;
 
-    for(t = 0; t < 2*size; t++) {
+    for(t = 0; t < size; t++) {
         j = t;
 
         for(l = 0; l < wavelet.filter_size; l++) {
-            j = j%(2*size);
+            j = j%(size);
 
             double approx_buffer = wavelet.scaling_filter[l]*(j%2 == 1 ? approx_in[(j - 1)/2] : 0);
             double detail_buffer = wavelet.wavelet_filter[l]*(j%2 == 1 ? detail_in[(j - 1)/2] : 0);

@@ -64,7 +64,7 @@ double* waverec(DwtResult data, Wavelet wavelet) {
         while(curr_depth > 0) {
             detail_in = data.detail[curr_depth - 1];
 
-            step_inverse_transform(approx_in, detail_in, &approx_out, band_size, wavelet);
+            step_inverse_transform(approx_in, detail_in, &approx_out, band_size*2, wavelet);
 
             free(approx_in);
             approx_in = approx_out;
