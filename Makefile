@@ -13,6 +13,8 @@ override CFLAGS += -fcommon
 PROG = wavelets
 
 _SRCS = test.c \
+    utils.c \
+    utils_internal.c \
     wavelet_base.c \
     wavelet_thresholding.c \
     wavelet_thresholding_internal.c \
@@ -20,7 +22,9 @@ _SRCS = test.c \
     wavelet_transform_internal.c
 SRCS = $(patsubst %,${SDIR}/%,${_SRCS})
 
-_DEPS = wavelet_base.h \
+_DEPS = utils.h \
+    utils_internal.h \
+    wavelet_base.h \
     wavelet_thresholding.h \
     wavelet_thresholding_internal.h \
     wavelet_transform.h \
@@ -28,6 +32,8 @@ _DEPS = wavelet_base.h \
 DEPS = $(patsubst %,${IDIR}/%,${_DEPS})
 
 _OBJS = test.o \
+    utils.o \
+    utils_internal.o \
     wavelet_base.o \
     wavelet_thresholding.o \
     wavelet_thresholding_internal.o \

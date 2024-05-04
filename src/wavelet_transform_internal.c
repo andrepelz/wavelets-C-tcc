@@ -46,10 +46,10 @@ void step_inverse_transform(double *approx_in, double *detail_in, double **appro
         for(l = 0; l < wavelet.filter_size; l++) {
             j = j%(size);
 
-            double approx_buffer = wavelet.scaling_filter[l]*(j%2 == 1 ? approx_in[(j - 1)/2] : 0);
-            double detail_buffer = wavelet.wavelet_filter[l]*(j%2 == 1 ? detail_in[(j - 1)/2] : 0);
+            double approx_temp = wavelet.scaling_filter[l]*(j%2 == 1 ? approx_in[(j - 1)/2] : 0);
+            double detail_temp = wavelet.wavelet_filter[l]*(j%2 == 1 ? detail_in[(j - 1)/2] : 0);
 
-            (*approx_out)[t] += approx_buffer + detail_buffer;
+            (*approx_out)[t] += approx_temp + detail_temp;
 
             j++;
         }
