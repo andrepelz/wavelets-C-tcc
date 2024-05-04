@@ -6,6 +6,7 @@
         "wavelet_base_internal.h": "c",
         "wavelet_base.h": "c",
         "wavelet_transform.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "cmath": "c"
     }
 }
