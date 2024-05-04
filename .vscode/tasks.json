@@ -1,0 +1,12 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Run Makefile",
+            "command": "make",
+            "args": ["win"],
+            "problemMatcher": [],
+        }
+    ],
+    "version": "2.0.0"
+}
