@@ -1,4 +1,3 @@
-#include "wavelet_base_internal.h"
 #include "wavelet_transform_internal.h"
 
 void step_transform(double *approx_in, double **approx_out, double **detail_out, size_t size, Wavelet wavelet) {
