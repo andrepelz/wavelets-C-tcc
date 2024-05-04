@@ -1,7 +1,7 @@
 #ifndef __WAVELET_THRESHOLDING_H__
 #define __WAVELET_THRESHOLDING_H__
 
-#include "wavelet_base.h"
+#include "wavelet_transform.h"
 
 #ifndef __WAVELET_THRESHOLDING_INTERNAL_H__
 typedef enum { soft, hard } threshold_t;

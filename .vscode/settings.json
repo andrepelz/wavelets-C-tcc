@@ -3,6 +3,9 @@
     "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe",
     "files.associations": {
         "stdint.h": "c",
-        "wavelet_base_internal.h": "c"
+        "wavelet_base_internal.h": "c",
+        "wavelet_base.h": "c",
+        "wavelet_transform.h": "c",
+        "stddef.h": "c"
     }
 }

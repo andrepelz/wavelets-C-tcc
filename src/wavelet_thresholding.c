@@ -1,5 +1,5 @@
-#include "wavelet_thresholding.h"
 #include "wavelet_thresholding_internal.h"
+#include "wavelet_thresholding.h"
 
 #include <math.h>
 

@@ -43,21 +43,21 @@ void threshold_test() {
 
     coeffs_apply_threshold(base_arr, ARRAY_SIZE, THRESHOLD_VALUE, THRESHOLD_TYPE);
 
-    // for(int i = 0; i < ARRAY_SIZE; i++) {
-    //     printf("%lf\t", base_arr[i]);
-    // }
+    for(int i = 0; i < ARRAY_SIZE; i++) {
+        printf("%lf\t", base_arr[i]);
+    }
 
-    // printf("\n\n");
+    printf("\n\n");
 
     DwtResult transform = wavedec(transform_arr, ARRAY_SIZE, wavelet, 3);
     apply_threshold(&transform, THRESHOLD_VALUE, THRESHOLD_TYPE);
     double* inverse_transform = waverec(transform, wavelet);
 
-    // for(int i = 0; i < ARRAY_SIZE; i++) {
-    //     printf("%lf\t", inverse_transform[i]);
-    // }
+    for(int i = 0; i < ARRAY_SIZE; i++) {
+        printf("%lf\t", inverse_transform[i]);
+    }
 
-    // printf("\n\n");
+    printf("\n\n");
 }
 
 // void alternate_test() {
