@@ -1,0 +1,25 @@
+#include "wavelet_thresholding_internal.h"
+
+#include <stdlib.h>
+
+double hard_thresholding(double input, double threshold) {
+    return abs(input) > threshold ? input : 0;
+}
+
+double soft_thresholding(double input, double threshold) {
+    int sign = input >= 0 ? 1 : -1;
+
+    return abs(input) > threshold ? input - sign*threshold : 0;
+}
+
+thresholding_func get_thresholding_function(threshold_t type) {
+    if(hard == type) {
+        return &hard_thresholding;
+    }
+
+    if(soft == type) {
+        return &soft_thresholding;
+    }
+
+    return NULL;
+}

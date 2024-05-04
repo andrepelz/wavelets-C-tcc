@@ -7,24 +7,30 @@ ODIR = obj
 CC = gcc
 
 WFLAGS = -Wall -Wno-comment -Wno-missing-braces -Wno-unused-function -Wno-unused-variable
-CFLAGS += -I ${IDIR}
-CFLAGS += -fcommon
+override CFLAGS += -I ${IDIR}
+override CFLAGS += -fcommon
 
 PROG = wavelets
 
 _SRCS = test.c \
     wavelet_base.c \
+    wavelet_thresholding.c \
+    wavelet_thresholding_internal.c \
     wavelet_transform.c \
     wavelet_transform_internal.c
 SRCS = $(patsubst %,${SDIR}/%,${_SRCS})
 
 _DEPS = wavelet_base.h \
+    wavelet_thresholding.h \
+    wavelet_thresholding_internal.h \
     wavelet_transform.h \
     wavelet_transform_internal.h
 DEPS = $(patsubst %,${IDIR}/%,${_DEPS})
 
 _OBJS = test.o \
     wavelet_base.o \
+    wavelet_thresholding.o \
+    wavelet_thresholding_internal.o \
     wavelet_transform.o \
     wavelet_transform_internal.o
 OBJS = $(patsubst %,${ODIR}/%,${_OBJS})
