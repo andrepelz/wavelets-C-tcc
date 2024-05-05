@@ -6,15 +6,16 @@
 #include <string.h>
 
 double calculate_threshold(double* d1, size_t original_size, double k, double m) {
-    double* abs_d1 = malloc(original_size/2*sizeof(double));
+    size_t d1_size = original_size/2;
+    double* abs_d1 = malloc(d1_size*sizeof(*d1));
 
-    memcpy(abs_d1, d1, original_size/2*sizeof(double));
+    memcpy(abs_d1, d1, d1_size*sizeof(*d1));
 
-    for(int i = 0; i < original_size/2; i++) {
+    for(int i = 0; i < d1_size; i++) {
         abs_d1[i] = abs(abs_d1[i]);
     }
 
-    double median_d1 = median(abs_d1, original_size/2);
+    double median_d1 = median(abs_d1, d1_size);
 
     return k*m*median_d1/0.6745*sqrt(2*log(original_size));
 }
@@ -27,16 +28,23 @@ double snr(double* signal, double* noise, size_t size) {
 }
 
 double mse(double* original_signal, double* resulting_signal, size_t size) {
-    double* buffer = malloc(size*sizeof(double));
+    double* original_buffer = malloc(size*sizeof(*original_signal));
+    double* resulting_buffer = malloc(size*sizeof(*resulting_signal));
     double result;
+
+    for(int i = 0; i < size; i++) {
+        original_buffer[i] = (double) original_signal[i];
+        resulting_buffer[i] = (double) resulting_signal[i];
+    }
 
     unsigned ceil = pow(2, 15);
 
-    subtract(original_signal, resulting_signal, &buffer, size, ceil);
-    square(buffer, &buffer, size, ceil);
-    result = mean(buffer, size);
+    subtract(original_buffer, resulting_signal, &original_buffer, size, ceil);
+    square(original_buffer, &original_buffer, size, ceil);
+    result = mean(original_buffer, size);
 
-    free(buffer);
+    free(original_buffer);
+    free(resulting_buffer);
 
     return result;
 }

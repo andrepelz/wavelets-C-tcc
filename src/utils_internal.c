@@ -9,8 +9,12 @@ int sign(double input) {
 }
 
 double signal_power(double* signal, size_t size) {
-    double* buffer = malloc(size*sizeof(double));
+    double* buffer = malloc(size*sizeof(*buffer));
     double result;
+
+    for(int i = 0; i < size; i++) {
+        buffer[i] = (double) signal[i];
+    }
 
     unsigned ceil = pow(2, 15);
 
@@ -43,10 +47,10 @@ int _double_compare_function(const void *a,const void *b) {
 
 double median(double* input, size_t size) {
     double result;
-    double *buffer = malloc(size*sizeof(double));
-    memcpy(buffer, input, size*sizeof(double));
+    double *buffer = malloc(size*sizeof(*input));
+    memcpy(buffer, input, size*sizeof(*buffer));
 
-    qsort(buffer, size, sizeof(double),  _double_compare_function);
+    qsort(buffer, size, sizeof(*buffer),  _double_compare_function);
 
     if(size%2 == 1) {
         result = buffer[size/2];

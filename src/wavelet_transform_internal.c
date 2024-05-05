@@ -1,8 +1,8 @@
 #include "wavelet_transform_internal.h"
 
 void step_transform(double *approx_in, double **approx_out, double **detail_out, size_t size, Wavelet wavelet) {
-    *approx_out = malloc(size/2*sizeof(double));
-    *detail_out = malloc(size/2*sizeof(double));
+    *approx_out = malloc(size/2*sizeof(**approx_out));
+    *detail_out = malloc(size/2*sizeof(**detail_out));
 
     for(int i = 0; i < size/2; i++) {
         (*approx_out)[i] = 0;
@@ -29,7 +29,7 @@ void step_transform(double *approx_in, double **approx_out, double **detail_out,
 }
 
 void step_inverse_transform(double *approx_in, double *detail_in, double **approx_out, size_t size, Wavelet wavelet) {
-    *approx_out = malloc(size*sizeof(double));
+    *approx_out = malloc(size*sizeof(**approx_out));
 
     for(int i = 0; i < size; i++) {
         (*approx_out)[i] = 0;

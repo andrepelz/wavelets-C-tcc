@@ -5,6 +5,7 @@
 
 #include "wavelet_transform.h"
 #include "wavelet_thresholding.h"
+#include "utils.h"
 
 #define ARRAY_SIZE 16
 #define ALTERNATE_ARRAY_SIZE 25
@@ -58,6 +59,13 @@ void threshold_test() {
     }
 
     printf("\n\n");
+
+    double calc_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+    double threshold;
+
+    threshold = calculate_threshold(calc_arr, ARRAY_SIZE*2, 1, 1);
+
+    printf("%lf\n\n", threshold);
 }
 
 // void alternate_test() {

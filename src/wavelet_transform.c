@@ -16,7 +16,7 @@ DwtResult wavedec(double *data, size_t size, Wavelet wavelet, uint16_t depth) {
             return result;
         }
 
-        result.detail = malloc(depth*sizeof(double*));
+        result.detail = malloc(depth*sizeof(*result.detail));
         result.depth = depth;
         result.original_size = size;
         
@@ -28,8 +28,8 @@ DwtResult wavedec(double *data, size_t size, Wavelet wavelet, uint16_t depth) {
         result.padded_size = size + padding;
         size += padding;
 
-        approx_in = malloc(size*sizeof(double));
-        memcpy(approx_in, data, size*sizeof(double));
+        approx_in = malloc(size*sizeof(*approx_in));
+        memcpy(approx_in, data, size*sizeof(*approx_in));
 
         while(size >= 2 && curr_depth < depth) {
             step_transform(approx_in, &approx_out, &detail_out, size, wavelet);
@@ -66,8 +66,8 @@ double* waverec(DwtResult data, Wavelet wavelet) {
             return NULL;
         }
 
-        approx_in = malloc(band_size*sizeof(double));
-        memcpy(approx_in, data.approximation, band_size*sizeof(double));
+        approx_in = malloc(band_size*sizeof(*approx_in));
+        memcpy(approx_in, data.approximation, band_size*sizeof(*approx_in));
 
         while(curr_depth > 0) {
             detail_in = data.detail[curr_depth - 1];
