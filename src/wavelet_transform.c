@@ -6,7 +6,7 @@
 #include <string.h>
 
 DwtResult wavedec(double *data, size_t size, Wavelet wavelet, uint16_t depth) {
-    DwtResult result;
+    DwtResult result = DEFAULT_DWT_RESULT;
     double *approx_in = NULL, *approx_out = NULL, *detail_out = NULL;
     uint16_t curr_depth = 0;
 
