@@ -10,6 +10,10 @@
         "cmath": "c",
         "cstdlib": "c",
         "stdlib.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "wavelet_thresholding.h": "c",
+        "string.h": "c",
+        "utils.h": "c",
+        "utils_internal.h": "c"
     }
 }

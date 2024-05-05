@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-double calculate_threshold(double* d1, size_t original_size, double k, double m) {
+double calculate_threshold(signal_t d1, size_t original_size, double k, double m) {
     size_t d1_size = original_size/2;
-    double* abs_d1 = malloc(d1_size*sizeof(*d1));
+    signal_t abs_d1 = malloc(d1_size*sizeof(*d1));
 
     memcpy(abs_d1, d1, d1_size*sizeof(*d1));
 
@@ -15,21 +15,21 @@ double calculate_threshold(double* d1, size_t original_size, double k, double m)
         abs_d1[i] = abs(abs_d1[i]);
     }
 
-    double median_d1 = median(abs_d1, d1_size);
+    double median_d1 = (double) median(abs_d1, d1_size);
 
     return k*m*median_d1/0.6745*sqrt(2*log(original_size));
 }
 
-double snr(double* signal, double* noise, size_t size) {
+double snr(signal_t signal, signal_t noise, size_t size) {
     double signal_power_db = 10*log10(signal_power(signal, size));
     double noise_power_db = 10*log10(signal_power(noise, size));
 
     return signal_power_db - noise_power_db;
 }
 
-double mse(double* original_signal, double* resulting_signal, size_t size) {
-    double* original_buffer = malloc(size*sizeof(*original_signal));
-    double* resulting_buffer = malloc(size*sizeof(*resulting_signal));
+double mse(signal_t original_signal, signal_t resulting_signal, size_t size) {
+    signal_t original_buffer = malloc(size*sizeof(*original_signal));
+    signal_t resulting_buffer = malloc(size*sizeof(*resulting_signal));
     double result;
 
     for(int i = 0; i < size; i++) {

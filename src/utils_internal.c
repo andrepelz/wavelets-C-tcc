@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-int sign(double input) {
+int sign(sample_t input) {
     return input >= 0 ? 1 : -1;
 }
 
-double signal_power(double* signal, size_t size) {
-    double* buffer = malloc(size*sizeof(*buffer));
+double signal_power(signal_t signal, size_t size) {
+    signal_t buffer = malloc(size*sizeof(*buffer));
     double result;
 
     for(int i = 0; i < size; i++) {
@@ -26,7 +26,7 @@ double signal_power(double* signal, size_t size) {
     return result;
 }
 
-double mean(double* input, size_t size) {
+double mean(signal_t input, size_t size) {
     double sum = 0;
 
     for(int i = 0; i < size; i++) {
@@ -45,12 +45,19 @@ int _double_compare_function(const void *a,const void *b) {
     return 0;
 }
 
-double median(double* input, size_t size) {
-    double result;
-    double *buffer = malloc(size*sizeof(*input));
+int _int_compare_function(const void *a,const void *b) {
+    int *x = (int *) a;
+    int *y = (int *) b;
+
+    return *x - *y;
+}
+
+sample_t median(signal_t input, size_t size) {
+    sample_t result;
+    signal_t buffer = malloc(size*sizeof(*input));
     memcpy(buffer, input, size*sizeof(*buffer));
 
-    qsort(buffer, size, sizeof(*buffer),  _double_compare_function);
+    qsort(buffer, size, sizeof(*buffer),  sample_compare_function);
 
     if(size%2 == 1) {
         result = buffer[size/2];
@@ -63,32 +70,32 @@ double median(double* input, size_t size) {
     return result;
 }
 
-void add(double* left, double* right, double** out, size_t size, double ceiling) {
+void add(signal_t left, signal_t right, signal_t* out, size_t size, double ceiling) {
     for(int i = 0; i < size; i++) {
-        double temp = left[i] + right[i];
+        double temp = (double) left[i] + (double) right[i];
 
         temp = abs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
 
-        (*out)[i] = temp;
+        (*out)[i] = (sample_t) temp;
     }
 }
 
-void subtract(double* left, double* right, double** out, size_t size, double ceiling) {
+void subtract(signal_t left, signal_t right, signal_t* out, size_t size, double ceiling) {
     for(int i = 0; i < size; i++) {
-        double temp = left[i] - right[i];
+        double temp = (double) left[i] - (double) right[i];
 
         temp = abs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
 
-        (*out)[i] = temp;
+        (*out)[i] = (sample_t) temp;
     }
 }
 
-void square(double* input, double** out, size_t size, double ceiling) {
+void square(signal_t input, signal_t* out, size_t size, double ceiling) {
     for(int i = 0; i < size; i++) {
         double temp = input[i]*input[i];
 
         temp = abs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
 
-        (*out)[i] = temp;
+        (*out)[i] = (sample_t) temp;
     }
 }

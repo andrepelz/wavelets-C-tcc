@@ -6,6 +6,7 @@
 #include "wavelet_transform.h"
 #include "wavelet_thresholding.h"
 #include "utils.h"
+#include "signal_base.h"
 
 #define ARRAY_SIZE 16
 #define ALTERNATE_ARRAY_SIZE 25
@@ -13,55 +14,62 @@
 #define THRESHOLD_VALUE 5
 #define THRESHOLD_TYPE soft
 
-void generic_test() {
-    double base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
-    DwtResult transform;
-    double *inverse_transform;
+// void generic_test() {
+//     double base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+//     DwtResult transform;
+//     double *inverse_transform;
 
-    double *iter;
-    double *end = &base_arr[ARRAY_SIZE];
+//     double *iter;
+//     double *end = &base_arr[ARRAY_SIZE];
 
-    uint16_t depth = 3;
+//     uint16_t depth = 3;
 
-    Wavelet wavelet = get_wavelet(MOTHER_WAVELET);
+//     Wavelet wavelet = get_wavelet(MOTHER_WAVELET);
 
-    transform = wavedec(base_arr, ARRAY_SIZE, wavelet, depth);
+//     transform = wavedec(base_arr, ARRAY_SIZE, wavelet, depth);
 
-    inverse_transform = waverec(transform, wavelet);
+//     inverse_transform = waverec(transform, wavelet);
 
-    end = inverse_transform + ARRAY_SIZE;
+//     end = inverse_transform + ARRAY_SIZE;
 
-    for(iter = inverse_transform; iter != end; iter++)
-        printf("%lf\t", *iter);
+//     for(iter = inverse_transform; iter != end; iter++)
+//         printf("%lf\t", *iter);
 
-    printf("\n\n");
-}
+//     printf("\n\n");
+// }
 
 void threshold_test() {
-    double base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
-    double transform_arr[ALTERNATE_ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
-    Wavelet wavelet = get_wavelet(MOTHER_WAVELET);
+    // sample_t base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+    // sample_t transform_arr[ALTERNATE_ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+    // Wavelet wavelet = get_wavelet(MOTHER_WAVELET);
 
-    coeffs_apply_threshold(base_arr, ARRAY_SIZE, THRESHOLD_VALUE, THRESHOLD_TYPE);
+    // coeffs_apply_threshold(base_arr, ARRAY_SIZE, THRESHOLD_VALUE, THRESHOLD_TYPE);
 
-    for(int i = 0; i < ARRAY_SIZE; i++) {
-        printf("%lf\t", base_arr[i]);
-    }
+    // for(int i = 0; i < ARRAY_SIZE; i++) {
+    //     printf("%lf\t", base_arr[i]);
+    // }
 
-    printf("\n\n");
+    // printf("\n\n");
 
-    DwtResult transform = wavedec(transform_arr, ALTERNATE_ARRAY_SIZE, wavelet, 3);
-    apply_threshold(&transform, THRESHOLD_VALUE, THRESHOLD_TYPE);
-    double* inverse_transform = waverec(transform, wavelet);
+    // DwtResult transform = wavedec(transform_arr, ALTERNATE_ARRAY_SIZE, wavelet, 3);
+    // apply_threshold(&transform, THRESHOLD_VALUE, THRESHOLD_TYPE);
+    // signal_t inverse_transform = waverec(transform, wavelet);
 
-    for(int i = 0; i < ALTERNATE_ARRAY_SIZE; i++) {
-        printf("%lf\t", inverse_transform[i]);
-    }
+    // for(int i = 0; i < ALTERNATE_ARRAY_SIZE; i++) {
+    //     printf("%lf\t", inverse_transform[i]);
+    // }
 
-    printf("\n\n");
+    // printf("\n\n");
 
-    double calc_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+    sample_t calc_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
     double threshold;
+
+    int ugh = 63;
+
+    void *test = &ugh;
+
+    printf("Size of my little guy as int: %d\n", sizeof(ugh));
+    printf("Size of my little guy as void*: %d\n\n\n", sizeof(*test));
 
     threshold = calculate_threshold(calc_arr, ARRAY_SIZE*2, 1, 1);
 
