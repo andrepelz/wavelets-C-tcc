@@ -13,7 +13,7 @@ void proto_evaluate_noise_reduction_algorithm(
     double k,
     double m) {
     signal_t noisy_data = malloc(input_size*sizeof(*noisy_data));
-    add(input_data, noise, noisy_data, input_size, 32000);
+    add(input_data, noise, noisy_data, input_size);
 
     double input_mse = mse(input_data, noisy_data, input_size);
     double input_snr = snr(input_data, noise, input_size);
@@ -27,7 +27,7 @@ void proto_evaluate_noise_reduction_algorithm(
     signal_t output_data = waverec(transform, wavelet);
 
     signal_t remaining_noise = malloc(input_size*sizeof(*remaining_noise));
-    subtract(output_data, input_data, remaining_noise, input_size, 32000);
+    subtract(output_data, input_data, remaining_noise, input_size);
 
     double output_mse = mse(input_data, output_data, input_size);
     double output_snr = snr(input_data, remaining_noise, input_size);
