@@ -7,6 +7,7 @@
 #include "wavelet_thresholding.h"
 #include "utils.h"
 #include "signal_base.h"
+#include "prototype.h"
 
 #define ARRAY_SIZE 16
 #define ALTERNATE_ARRAY_SIZE 25
@@ -78,6 +79,16 @@ void threshold_test() {
     printf("%lf\n\n", threshold);
 }
 
+void prototype_test() {
+    sample_t base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+    sample_t noise[ARRAY_SIZE] = { 4, -6, 20, 28, 3, 34, 8, 38, 37, 24, -18, 9, 23, -24, 28, 3 };
+    Wavelet wavelet = get_wavelet(MOTHER_WAVELET);
+    uint16_t depth = 2;
+    double k = 1, m = 1;
+
+    proto_evaluate_noise_reduction_algorithm(base_arr, noise, ARRAY_SIZE, wavelet, depth, soft, k, m);
+}
+
 // void alternate_test() {
 //     double base_arr[ALTERNATE_ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
 //     signal_t transform;
@@ -123,7 +134,8 @@ void threshold_test() {
 // }
 
 int main() {
-    generic_test();
+    // generic_test();
+    prototype_test();
 
     return 0;
 }

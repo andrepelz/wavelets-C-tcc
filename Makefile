@@ -15,6 +15,7 @@ PROG = wavelets
 _SRCS = test.c \
     utils.c \
     utils_internal.c \
+    prototype.c \
     signal_base.c \
     signal_base_internal.c \
     wavelet_base.c \
@@ -26,6 +27,7 @@ SRCS = $(patsubst %,${SDIR}/%,${_SRCS})
 
 _DEPS = utils.h \
     utils_internal.h \
+    prototype.h \
     signal_base.h \
     signal_base_internal.h \
     wavelet_base.h \
@@ -38,6 +40,7 @@ DEPS = $(patsubst %,${IDIR}/%,${_DEPS})
 _OBJS = test.o \
     utils.o \
     utils_internal.o \
+    prototype.o \
     signal_base.o \
     signal_base_internal.o \
     wavelet_base.o \

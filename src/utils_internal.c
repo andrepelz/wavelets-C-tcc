@@ -18,7 +18,7 @@ double signal_power(signal_t signal, size_t size) {
 
     unsigned ceil = pow(2, 15);
 
-    square(buffer, &buffer, size, ceil);
+    square(buffer, buffer, size, ceil);
     result = mean(buffer, size);
 
     free(buffer);
@@ -70,32 +70,12 @@ sample_t median(signal_t input, size_t size) {
     return result;
 }
 
-void add(signal_t left, signal_t right, signal_t* out, size_t size, double ceiling) {
-    for(int i = 0; i < size; i++) {
-        double temp = (double) left[i] + (double) right[i];
-
-        temp = abs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
-
-        (*out)[i] = (sample_t) temp;
-    }
-}
-
-void subtract(signal_t left, signal_t right, signal_t* out, size_t size, double ceiling) {
-    for(int i = 0; i < size; i++) {
-        double temp = (double) left[i] - (double) right[i];
-
-        temp = abs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
-
-        (*out)[i] = (sample_t) temp;
-    }
-}
-
-void square(signal_t input, signal_t* out, size_t size, double ceiling) {
+void square(signal_t input, signal_t out, size_t size, double ceiling) {
     for(int i = 0; i < size; i++) {
         double temp = input[i]*input[i];
 
         temp = abs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
 
-        (*out)[i] = (sample_t) temp;
+        out[i] = (sample_t) temp;
     }
 }
