@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include "signal_base.h"
 
-double calculate_threshold(signal_t d1, size_t original_size, double k, double m);
+double calculate_threshold(double* d1, size_t original_size, double k, double m);
 
 void add(signal_t left, signal_t right, signal_t out, size_t size, double ceiling);
 void subtract(signal_t left, signal_t right, signal_t out, size_t size, double ceiling);

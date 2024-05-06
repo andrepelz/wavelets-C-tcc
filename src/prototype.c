@@ -33,6 +33,7 @@ void proto_evaluate_noise_reduction_algorithm(
     printf("Mother Wavelet: %s\n", wavelet.name);
     printf("Depth: %d\n", depth);
     printf("Threshold type: %s\n", threshold_type == soft ? "soft" : "hard");
+    printf("Threshold value: %lf\n", threshold);
     printf("k: %lf\n", k);
     printf("m: %lf\n", m);
     printf("Input SNR: %lf\n", input_snr);

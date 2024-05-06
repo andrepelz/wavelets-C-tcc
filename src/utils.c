@@ -5,14 +5,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-double calculate_threshold(signal_t d1, size_t original_size, double k, double m) {
+double calculate_threshold(double* d1, size_t original_size, double k, double m) {
     size_t d1_size = original_size/2;
-    signal_t abs_d1 = malloc(d1_size*sizeof(*d1));
+    double* abs_d1 = malloc(d1_size*sizeof(*d1));
 
     memcpy(abs_d1, d1, d1_size*sizeof(*d1));
 
     for(int i = 0; i < d1_size; i++) {
-        abs_d1[i] = abs(abs_d1[i]);
+        abs_d1[i] = fabs(abs_d1[i]);
     }
 
     double median_d1 = (double) median(abs_d1, d1_size);
@@ -24,7 +24,7 @@ void add(signal_t left, signal_t right, signal_t out, size_t size, double ceilin
     for(int i = 0; i < size; i++) {
         double temp = (double) left[i] + (double) right[i];
 
-        temp = abs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
+        temp = fabs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
 
         out[i] = (sample_t) temp;
     }
@@ -34,7 +34,7 @@ void subtract(signal_t left, signal_t right, signal_t out, size_t size, double c
     for(int i = 0; i < size; i++) {
         double temp = (double) left[i] - (double) right[i];
 
-        temp = abs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
+        temp = fabs(temp) >= ceiling ? sign(temp)*(ceiling - 1) : temp;
 
         out[i] = (sample_t) temp;
     }

@@ -67,7 +67,7 @@ void threshold_test() {
 
     printf("\n\n");
 
-    sample_t calc_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+    double calc_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
     double threshold;
 
     int ugh = 63;
@@ -135,6 +135,7 @@ void prototype_test() {
 
 int main() {
     // generic_test();
+    // threshold_test();
     prototype_test();
 
     return 0;

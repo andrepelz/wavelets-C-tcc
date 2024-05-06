@@ -4,11 +4,11 @@
 #include <stdlib.h>
 
 double hard_thresholding(double input, double threshold) {
-    return abs(input) > threshold ? input : 0;
+    return fabs(input) > threshold ? input : 0;
 }
 
 double soft_thresholding(double input, double threshold) {
-    return abs(input) > threshold ? input - sign(input)*threshold : 0;
+    return fabs(input) > threshold ? input - sign(input)*threshold : 0;
 }
 
 thresholding_func get_thresholding_function(threshold_t type) {
