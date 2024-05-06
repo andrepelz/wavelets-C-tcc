@@ -3,7 +3,7 @@
 
 #include "signal_base.h"
 
-typedef sample_t (*thresholding_func)(sample_t, double);
+typedef double (*thresholding_func)(double, double);
 
 #ifndef __WAVELET_THRESHOLDING_H__
 typedef enum { soft, hard } threshold_t;

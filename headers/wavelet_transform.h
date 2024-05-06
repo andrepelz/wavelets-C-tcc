@@ -5,8 +5,8 @@
 #include "signal_base.h"
 
 typedef struct WaveletTransformResult {
-    signal_t approximation;
-    signal_t* detail;
+    double* approximation;
+    double** detail;
     uint16_t depth;
     size_t original_size;
     size_t padded_size;
