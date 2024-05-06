@@ -2,6 +2,7 @@
 
 #include "utils_internal.h"
 #include <stdlib.h>
+#include <math.h>
 
 double hard_thresholding(double input, double threshold) {
     return fabs(input) > threshold ? input : 0;

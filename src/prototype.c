@@ -1,4 +1,6 @@
 #include "prototype.h"
+
+#include <stdio.h>
 #include "utils.h"
 
 void proto_evaluate_noise_reduction_algorithm(
