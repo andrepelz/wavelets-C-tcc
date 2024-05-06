@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-void coeffs_apply_threshold(double* input, size_t size, double threshold, threshold_t type) {
+void coeffs_apply_threshold(signal_t input, size_t size, double threshold, threshold_t type) {
     thresholding_func func = get_thresholding_function(type);
 
     for(int i = 0; i < size; i++) {
@@ -17,6 +17,4 @@ void apply_threshold(DwtResult* input, double threshold, threshold_t type) {
         
         coeffs_apply_threshold(input->detail[curr_depth], band_size, threshold, type);
     }
-
-
 }

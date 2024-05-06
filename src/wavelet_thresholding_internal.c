@@ -3,11 +3,11 @@
 #include "utils_internal.h"
 #include <stdlib.h>
 
-double hard_thresholding(double input, double threshold) {
+sample_t hard_thresholding(sample_t input, double threshold) {
     return abs(input) > threshold ? input : 0;
 }
 
-double soft_thresholding(double input, double threshold) {
+sample_t soft_thresholding(sample_t input, double threshold) {
     return abs(input) > threshold ? input - sign(input)*threshold : 0;
 }
 

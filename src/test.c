@@ -15,12 +15,17 @@
 #define THRESHOLD_TYPE soft
 
 void generic_test() {
-    double base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+    sample_t base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
     DwtResult transform;
-    double *inverse_transform;
+    signal_t inverse_transform;
 
-    double *iter;
-    double *end = &base_arr[ARRAY_SIZE];
+    sample_t *iter;
+    sample_t *end = &base_arr[ARRAY_SIZE];
+
+    for(iter = base_arr; iter != end; iter++)
+        printf("%d\t", *iter);
+
+    printf("\n\n");
 
     uint16_t depth = 3;
 
@@ -30,10 +35,10 @@ void generic_test() {
 
     inverse_transform = waverec(transform, wavelet);
 
-    end = inverse_transform + ARRAY_SIZE;
+    end = &inverse_transform[ARRAY_SIZE];
 
     for(iter = inverse_transform; iter != end; iter++)
-        printf("%lf\t", *iter);
+        printf("%d\t", *iter);
 
     printf("\n\n");
 }
@@ -75,11 +80,11 @@ void threshold_test() {
 
 // void alternate_test() {
 //     double base_arr[ALTERNATE_ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
-//     double *transform;
-//     double *inverse_transform;
+//     signal_t transform;
+//     signal_t inverse_transform;
 
-//     double *iter;
-//     double *end = &base_arr[ALTERNATE_ARRAY_SIZE];
+//     signal_t iter;
+//     signal_t end = &base_arr[ALTERNATE_ARRAY_SIZE];
 
 //     uint16_t depth = 3;
 
@@ -89,7 +94,7 @@ void threshold_test() {
 //         : 0;
 
 //     uint16_t arr_size = ALTERNATE_ARRAY_SIZE + padding;
-//     double *arr_ptr = (double *)malloc(
+//     signal_t arr_ptr = (signal_t )malloc(
 //         arr_size*sizeof(double));
 
 //     for(int i = 0; i < arr_size; i++)
@@ -118,7 +123,7 @@ void threshold_test() {
 // }
 
 int main() {
-    threshold_test();
+    generic_test();
 
     return 0;
 }

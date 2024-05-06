@@ -5,9 +5,11 @@
 #include <math.h>
 #include <string.h>
 
-DwtResult wavedec(double *data, size_t size, Wavelet wavelet, uint16_t depth) {
+DwtResult wavedec(signal_t data, size_t size, Wavelet wavelet, uint16_t depth) {
     DwtResult result = DEFAULT_DWT_RESULT;
-    double *approx_in = NULL, *approx_out = NULL, *detail_out = NULL;
+    signal_t approx_in = NULL;
+    signal_t approx_out = NULL;
+    signal_t detail_out = NULL;
     uint16_t curr_depth = 0;
 
     if(size >= 2) {
@@ -52,9 +54,11 @@ DwtResult wavedec(double *data, size_t size, Wavelet wavelet, uint16_t depth) {
     }
 }
 
-double* waverec(DwtResult data, Wavelet wavelet) {
-    double *result = NULL;
-    double *approx_in = NULL, *detail_in = NULL, *approx_out = NULL;
+signal_t waverec(DwtResult data, Wavelet wavelet) {
+    signal_t result = NULL;
+    signal_t approx_in = NULL;
+    signal_t detail_in = NULL;
+    signal_t approx_out = NULL;
     uint16_t curr_depth = data.depth;
     size_t band_size;
 

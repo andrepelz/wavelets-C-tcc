@@ -7,7 +7,7 @@
 typedef enum { soft, hard } threshold_t;
 #endif
 
-void coeffs_apply_threshold(double* input, size_t size, double threshold, threshold_t type);
+void coeffs_apply_threshold(signal_t input, size_t size, double threshold, threshold_t type);
 void apply_threshold(DwtResult* input, double threshold, threshold_t type);
 
 #endif
