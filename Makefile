@@ -18,6 +18,9 @@ _SRCS = test.c \
     prototype.c \
     signal_base.c \
     signal_base_internal.c \
+    helper_functions.c \
+    wav_data.c \
+    wav_header.c \
     wavelet_base.c \
     wavelet_thresholding.c \
     wavelet_thresholding_internal.c \
@@ -30,6 +33,10 @@ _DEPS = utils.h \
     prototype.h \
     signal_base.h \
     signal_base_internal.h \
+    helper_functions.h \
+    wav_data.h \
+    wav_header.h \
+    wav_types.h \
     wavelet_base.h \
     wavelet_thresholding.h \
     wavelet_thresholding_internal.h \
@@ -43,6 +50,9 @@ _OBJS = test.o \
     prototype.o \
     signal_base.o \
     signal_base_internal.o \
+    helper_functions.o \
+    wav_data.o \
+    wav_header.o \
     wavelet_base.o \
     wavelet_thresholding.o \
     wavelet_thresholding_internal.o \
