@@ -9,14 +9,10 @@ int sign(sample_t input) {
 }
 
 double signal_power(signal_t signal, size_t size) {
-    signal_t buffer = malloc(size*sizeof(*buffer));
+    double* buffer = malloc(size*sizeof(*buffer));
     double result;
 
-    for(int i = 0; i < size; i++) {
-        buffer[i] = (double) signal[i];
-    }
-
-    square(buffer, buffer, size);
+    square(signal, buffer, size);
     result = mean(buffer, size);
 
     free(buffer);
@@ -24,11 +20,11 @@ double signal_power(signal_t signal, size_t size) {
     return result;
 }
 
-double mean(signal_t input, size_t size) {
+double mean(double* input, size_t size) {
     double sum = 0;
 
     for(int i = 0; i < size; i++) {
-        sum += (double) input[i];
+        sum += input[i];
     }
 
     return sum/size;
@@ -61,12 +57,9 @@ double median(double* input, size_t size) {
     return result;
 }
 
-void square(signal_t input, signal_t out, size_t size) {
+void square(signal_t input, double* output, size_t size) {
     for(int i = 0; i < size; i++) {
-        double temp = input[i]*input[i];
-
-        temp = fabs(temp) >= SAMPLE_MAX_VALUE ? sign(temp)*(SAMPLE_MAX_VALUE) : temp;
-
-        out[i] = (sample_t) temp;
+        double temp = (double) input[i];
+        output[i] = temp*temp;
     }
 }

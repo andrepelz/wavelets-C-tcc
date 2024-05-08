@@ -38,11 +38,11 @@ short *read_data(FILE *fp_in, union header_data *header_bytes){
       if (fread(dp, bytes_per_sample, 1, fp_in) != 1) {
         fprintf(stderr, "Error: Couldn't read all samples\n");
         exit(6);
-      }  
+      }
       dp++;
     }
   }
-  
+
   return data; 
 }
 
@@ -57,5 +57,13 @@ void write_wav(FILE *fp_out, union header_data *header_bytes, short *data, char 
 
   fwrite(data, sizeof(short), num_samples_per_channel * num_channels, fp_out);
   printf(" done.\n");
+}
+
+size_t get_data_size(union header_data *header_bytes) {
+  int data_num_bytes = header_bytes->header.subchunk2_size.int_value;
+  short bits_per_sample = header_bytes->header.bits_per_sample.short_value;
+  int bytes_per_sample = bits_per_sample / 8;
+
+  return data_num_bytes/bytes_per_sample;
 }
 

@@ -8,9 +8,9 @@ int sign(sample_t input);
 
 double signal_power(signal_t signal, size_t size);
 
-double mean(signal_t input, size_t size);
+double mean(double* input, size_t size);
 double median(double* input, size_t size);
 
-void square(signal_t input, signal_t out, size_t size);
+void square(signal_t input, double* output, size_t size);
 
 #endif

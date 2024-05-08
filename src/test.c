@@ -8,12 +8,18 @@
 #include "utils.h"
 #include "signal_base.h"
 #include "prototype.h"
+#include "wav_header.h"
+#include "wav_data.h"
 
 #define ARRAY_SIZE 16
 #define ALTERNATE_ARRAY_SIZE 25
 #define MOTHER_WAVELET "db2"
 #define THRESHOLD_VALUE 5
 #define THRESHOLD_TYPE soft
+#define INPUT_FILENAME "input.wav"
+#define NOISE_FILENAME "noise.wav"
+#define SIGNAL_DURATION_LIMIT_SECONDS 30
+#define SIGNAL_SAMPLE_RATE 16000
 
 void generic_test() {
     sample_t base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
@@ -79,14 +85,55 @@ void generic_test() {
 //     printf("%lf\n\n", threshold);
 // }
 
-void prototype_test() {
-    sample_t base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
-    sample_t noise[ARRAY_SIZE] = { 4, -6, 20, 28, 3, 34, 8, 38, 37, 24, -18, 9, 23, -24, 28, 3 };
+int prototype_test() {
+    // sample_t base_arr[ARRAY_SIZE] = { 32, 10, 20, 38, 37, 28, 38, 34, 18, 24, 18, 9, 23, 24, 28, 34 };
+    // sample_t noise[ARRAY_SIZE] = { 4, -6, 20, 28, 3, 34, 8, 38, 37, 24, -18, 9, 23, -24, 28, 3 };
     Wavelet wavelet = get_wavelet(MOTHER_WAVELET);
-    uint16_t depth = 2;
+    uint16_t depth = 5;
     double k = 1, m = 1;
 
-    proto_evaluate_noise_reduction_algorithm(base_arr, noise, ARRAY_SIZE, wavelet, depth, soft, k, m);
+    FILE *input_file, *noise_file;
+    union header_data *input_header, *noise_header;
+    signal_t input_data;
+    signal_t noise_data;
+    size_t input_size, noise_size, max_size;
+
+    input_file = fopen(INPUT_FILENAME, "rb");
+    noise_file = fopen(NOISE_FILENAME, "rb");
+
+    if (input_file == NULL || noise_file == NULL)
+        return -1;
+
+    input_header = malloc(sizeof(union header_data));
+    noise_header = malloc(sizeof(union header_data));
+
+    read_header(input_file, input_header, INPUT_FILENAME);
+    read_header(noise_file, noise_header, NOISE_FILENAME);
+
+    input_size = get_data_size(input_header);
+    noise_size = get_data_size(noise_header);
+    max_size = SIGNAL_DURATION_LIMIT_SECONDS*SIGNAL_SAMPLE_RATE;
+
+    if(input_size > max_size)
+        noise_size = max_size;
+    
+    if(noise_size > max_size)
+        noise_size = max_size;
+
+    if(input_size > noise_size)
+        input_size = noise_size;
+    else
+        noise_size = input_size;
+
+    input_data = read_data(input_file, input_header);
+    input_data = realloc(input_data, input_size*sizeof(sample_t));
+
+    noise_data = read_data(noise_file, noise_header);
+    noise_data = realloc(noise_data, noise_size*sizeof(sample_t));
+
+    proto_evaluate_noise_reduction_algorithm(input_data, noise_data, input_size, wavelet, depth, soft, k, m);
+
+    return 0;
 }
 
 // void alternate_test() {
@@ -136,7 +183,7 @@ void prototype_test() {
 int main() {
     // generic_test();
     // threshold_test();
-    prototype_test();
+    return prototype_test();
 
     return 0;
 }

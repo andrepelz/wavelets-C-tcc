@@ -48,21 +48,21 @@ double snr(signal_t signal, signal_t noise, size_t size) {
 }
 
 double mse(signal_t original_signal, signal_t resulting_signal, size_t size) {
-    signal_t original_buffer = malloc(size*sizeof(*original_signal));
-    signal_t resulting_buffer = malloc(size*sizeof(*resulting_signal));
+    signal_t original_buffer = malloc(size*sizeof(*original_buffer));
+    double* double_buffer = malloc(size*sizeof(*double_buffer));
     double result;
 
     for(int i = 0; i < size; i++) {
-        original_buffer[i] = (double) original_signal[i];
-        resulting_buffer[i] = (double) resulting_signal[i];
+        original_buffer[i] = (sample_t) original_signal[i];
     }
 
     subtract(original_buffer, resulting_signal, original_buffer, size);
-    square(original_buffer, original_buffer, size);
-    result = mean(original_buffer, size);
+
+    square(original_buffer, double_buffer, size);
+    result = mean(double_buffer, size);
 
     free(original_buffer);
-    free(resulting_buffer);
+    free(double_buffer);
 
     return result;
 }
