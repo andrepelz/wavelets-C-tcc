@@ -42,6 +42,4 @@ void proto_evaluate_noise_reduction_algorithm(
     printf("Input MSE: %lf\n", input_mse);
     printf("Output SNR: %lf\n", output_snr);
     printf("Output MSE: %lf\n", output_mse);
-
-    return;
 }

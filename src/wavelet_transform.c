@@ -30,8 +30,9 @@ DwtResult wavedec(signal_t data, size_t size, Wavelet wavelet, uint16_t depth) {
         result.padded_size = size + padding;
         size += padding;
 
+        approx_in = malloc(size*sizeof(*approx_in));
+
         while(size >= 2 && curr_depth < depth) {
-            approx_in = malloc(size*sizeof(*approx_in));
             approx_out = malloc(size/2*sizeof(*approx_out));
             detail_out = malloc(size/2*sizeof(*detail_out));
 
