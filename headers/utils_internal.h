@@ -11,6 +11,8 @@ double signal_power(signal_t signal, size_t size);
 double mean(double* input, size_t size);
 double median(double* input, size_t size);
 
-void square(signal_t input, double* output, size_t size);
+void square(double* input, double* output, size_t size);
+
+void normalize(signal_t input, double* output, size_t size);
 
 #endif

@@ -58,7 +58,8 @@ double mse(signal_t original_signal, signal_t resulting_signal, size_t size) {
 
     subtract(original_buffer, resulting_signal, original_buffer, size);
 
-    square(original_buffer, double_buffer, size);
+    normalize(original_buffer, double_buffer, size);
+    square(double_buffer, double_buffer, size);
     result = mean(double_buffer, size);
 
     free(original_buffer);

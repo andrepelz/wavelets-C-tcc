@@ -12,7 +12,10 @@ double signal_power(signal_t signal, size_t size) {
     double* buffer = malloc(size*sizeof(*buffer));
     double result;
 
-    square(signal, buffer, size);
+    for(int i = 0; i < size; i++)
+        buffer[i] = signal[i];
+
+    square(buffer, buffer, size);
     result = mean(buffer, size);
 
     free(buffer);
@@ -57,9 +60,15 @@ double median(double* input, size_t size) {
     return result;
 }
 
-void square(signal_t input, double* output, size_t size) {
+void square(double* input, double* output, size_t size) {
+    for(int i = 0; i < size; i++) {
+        output[i] = input[i]*input[i];
+    }
+}
+
+void normalize(signal_t input, double* output, size_t size) {
     for(int i = 0; i < size; i++) {
         double temp = (double) input[i];
-        output[i] = temp*temp;
+        output[i] = temp/SAMPLE_MAX_VALUE;
     }
 }
