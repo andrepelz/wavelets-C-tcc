@@ -15,7 +15,7 @@ double calculate_threshold(double* d1, size_t original_size, double k, double m)
         abs_d1[i] = fabs(abs_d1[i]);
     }
 
-    double median_d1 = (double) median(abs_d1, d1_size);
+    double median_d1 = median(abs_d1, d1_size);
 
     return k*m*median_d1/0.6745*sqrt(2*log(original_size));
 }
