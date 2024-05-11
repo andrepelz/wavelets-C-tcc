@@ -7,7 +7,7 @@
 #include "wavelet_transform.h"
 #include "wavelet_thresholding.h"
 
-#define MOTHER_WAVELET "db2"
+#define MOTHER_WAVELET "sym8"
 #define INPUT_FILENAME "input.wav"
 #define NOISE_FILENAME "noise.wav"
 #define SIGNAL_DURATION_LIMIT_SECONDS 30
