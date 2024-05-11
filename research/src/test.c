@@ -180,10 +180,10 @@ int prototype_test() {
 //     printf("\n\n");
 // }
 
-int main() {
-    // generic_test();
-    // threshold_test();
-    return prototype_test();
+// int main() {
+//     // generic_test();
+//     // threshold_test();
+//     return prototype_test();
 
-    return 0;
-}
+//     return 0;
+// }

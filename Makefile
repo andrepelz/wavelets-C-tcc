@@ -12,10 +12,10 @@ override CFLAGS += -fcommon
 
 PROG = wavelets
 
-_SRCS = test.c \
+_SRCS = main.c \
     utils.c \
     utils_internal.c \
-    prototype.c \
+    io_handling.c \
     signal_base.c \
     signal_base_internal.c \
     helper_functions.c \
@@ -30,7 +30,7 @@ SRCS = $(patsubst %,${SDIR}/%,${_SRCS})
 
 _DEPS = utils.h \
     utils_internal.h \
-    prototype.h \
+    io_handling.h \
     signal_base.h \
     signal_base_internal.h \
     helper_functions.h \
@@ -44,10 +44,10 @@ _DEPS = utils.h \
     wavelet_transform_internal.h
 DEPS = $(patsubst %,${IDIR}/%,${_DEPS})
 
-_OBJS = test.o \
+_OBJS = main.o \
     utils.o \
     utils_internal.o \
-    prototype.o \
+    io_handling.o \
     signal_base.o \
     signal_base_internal.o \
     helper_functions.o \
