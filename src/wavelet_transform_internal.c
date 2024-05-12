@@ -29,16 +29,19 @@ void step_inverse_transform(double *approx_in, double *detail_in, double *approx
 
     int t, j, l;
 
-    for(t = 0; t < size; t++) {
+    for(t = 0; t < size/2; t++) {
         j = t;
 
-        for(l = 0; l < wavelet.filter_size; l++) {
-            j = j%(size);
+        for(l = 0; l < wavelet.filter_size; l += 2) {
+            j = j%(size/2);
 
-            double approx_temp = wavelet.scaling_filter[l]*(j%2 == 1 ? approx_in[(j - 1)/2] : 0);
-            double detail_temp = wavelet.wavelet_filter[l]*(j%2 == 1 ? detail_in[(j - 1)/2] : 0);
+            double even_approx_temp = wavelet.scaling_filter[l + 1]*approx_in[j];
+            double even_detail_temp = wavelet.wavelet_filter[l + 1]*detail_in[j];
+            double odd_approx_temp = wavelet.scaling_filter[l]*approx_in[j];
+            double odd_detail_temp = wavelet.wavelet_filter[l]*detail_in[j];
 
-            approx_out[t] += approx_temp + detail_temp;
+            approx_out[2*t] += even_approx_temp + even_detail_temp;
+            approx_out[2*t + 1] += odd_approx_temp + odd_detail_temp;
 
             j++;
         }
