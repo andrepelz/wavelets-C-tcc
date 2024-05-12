@@ -7,7 +7,7 @@ ODIR = obj
 CC = gcc
 
 WFLAGS = -Wall -Wno-comment -Wno-missing-braces -Wno-unused-function -Wno-unused-variable
-override CFLAGS += -I ${IDIR}
+override CFLAGS += -I ${IDIR} -pg -no-pie
 override CFLAGS += -fcommon
 
 PROG = wavelets

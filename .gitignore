@@ -2,3 +2,5 @@
 obj
 .vscode
 *.wav
+*.txt
+*.out
