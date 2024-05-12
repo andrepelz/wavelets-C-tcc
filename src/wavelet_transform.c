@@ -99,6 +99,8 @@ signal_t waverec(DwtResult data, Wavelet wavelet) {
         for(int i = 0; i < data.original_size; i++)
             result[i] = (sample_t) approx_out[i];
 
+        free(approx_out);
+
         return result;
     } else {
         printf("ERROR: Sample size of data provided is too small! Please provide a sample of at least 2 data points\n");
