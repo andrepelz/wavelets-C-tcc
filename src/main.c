@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <omp.h>
 
 #include "utils.h"
 #include "io_handling.h"
@@ -12,6 +13,7 @@
 #define NOISE_FILENAME "noise.wav"
 #define SIGNAL_DURATION_LIMIT_SECONDS 30
 #define SIGNAL_SAMPLE_RATE 16000
+#define MAX_THREAD_COUNT 32
 
 void evaluate_noise_reduction_algorithm(
     signal_t input_data, 
@@ -69,6 +71,9 @@ int main() {
     signal_t input_data;
     signal_t noise_data;
     size_t max_size, signal_size;
+
+    omp_set_dynamic(0);
+    omp_set_num_threads(min(MAX_THREAD_COUNT, pow(2, depth)));
 
     max_size = SIGNAL_DURATION_LIMIT_SECONDS*SIGNAL_SAMPLE_RATE;
     signal_size = read_input_files(&input_data, &noise_data, INPUT_FILENAME, NOISE_FILENAME, max_size);
