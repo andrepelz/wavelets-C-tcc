@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <omp.h>
+#include <math.h>
 
 #include "utils.h"
 #include "io_handling.h"
@@ -72,8 +73,10 @@ int main() {
     signal_t noise_data;
     size_t max_size, signal_size;
 
+    short num_threads = pow(2, depth);
+
     omp_set_dynamic(0);
-    omp_set_num_threads(min(MAX_THREAD_COUNT, pow(2, depth)));
+    omp_set_num_threads(num_threads > MAX_THREAD_COUNT ? MAX_THREAD_COUNT : num_threads);
 
     max_size = SIGNAL_DURATION_LIMIT_SECONDS*SIGNAL_SAMPLE_RATE;
     signal_size = read_input_files(&input_data, &noise_data, INPUT_FILENAME, NOISE_FILENAME, max_size);
