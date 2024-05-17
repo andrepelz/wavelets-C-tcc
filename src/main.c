@@ -14,6 +14,7 @@
 #define NOISE_FILENAME "noise.wav"
 #define SIGNAL_DURATION_LIMIT_SECONDS 30
 #define SIGNAL_SAMPLE_RATE 16000
+#define NUM_THREADS 8
 #define MAX_THREAD_COUNT 32
 
 void evaluate_noise_reduction_algorithm(
@@ -73,10 +74,8 @@ int main() {
     signal_t noise_data;
     size_t max_size, signal_size;
 
-    short num_threads = pow(2, depth);
-
     omp_set_dynamic(0);
-    omp_set_num_threads(num_threads > MAX_THREAD_COUNT ? MAX_THREAD_COUNT : num_threads);
+    omp_set_num_threads(NUM_THREADS > MAX_THREAD_COUNT ? MAX_THREAD_COUNT : NUM_THREADS);
 
     max_size = SIGNAL_DURATION_LIMIT_SECONDS*SIGNAL_SAMPLE_RATE;
     signal_size = read_input_files(&input_data, &noise_data, INPUT_FILENAME, NOISE_FILENAME, max_size);
