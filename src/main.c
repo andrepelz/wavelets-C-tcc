@@ -66,11 +66,6 @@ void evaluate_noise_reduction_algorithm(
     // printf("Output MSE: %lf\n", output_mse);
     // printf("Execution Time: %lf ms\n", ((double) execution_end - execution_start)/CLOCKS_PER_SEC*1000);
 
-    fprintf(result_file, "%s;", wavelet.name);
-    fprintf(result_file, "%d;", depth);
-    fprintf(result_file, "%s;", threshold_type == soft ? "soft" : "hard");
-    fprintf(result_file, "%lf;", k);
-    fprintf(result_file, "%lf;", m);
     fprintf(result_file, "%lf;", input_snr);
     fprintf(result_file, "%lf;", output_snr);
     fprintf(result_file, "%lf;", input_mse);

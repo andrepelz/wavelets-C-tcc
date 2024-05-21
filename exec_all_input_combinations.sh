@@ -1,6 +1,6 @@
 rm results.csv
 touch results.csv
-echo "input;noise;mother_wavelet;local_max_level;threshold_type;k_coeff;m_coeff;input_snr;output_snr;input_mse;output_mse;execution_time" > results.csv
+echo "input;noise;input_snr;output_snr;input_mse;output_mse;execution_time" > results.csv
 
 ./main.exe "speech-librivox-0005" "noise-free-sound-0001"
 ./main.exe "speech-librivox-0005" "noise-free-sound-0165"
