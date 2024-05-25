@@ -1,7 +1,7 @@
 #include "wavelet_transform_internal.h"
 #include <omp.h>
 
-void step_transform(double *approx_in, double *approx_out, double *detail_out, size_t size, Wavelet wavelet) {
+void dwt_1L(double *approx_in, double *approx_out, double *detail_out, size_t size, Wavelet wavelet) {
     for(int i = 0; i < size/2; i++) {
         approx_out[i] = 0;
         detail_out[i] = 0;
@@ -30,7 +30,7 @@ void step_transform(double *approx_in, double *approx_out, double *detail_out, s
     }
 }
 
-void step_inverse_transform(double *approx_in, double *detail_in, double *approx_out, size_t size, Wavelet wavelet) {
+void idwt_1L(double *approx_in, double *detail_in, double *approx_out, size_t size, Wavelet wavelet) {
     for(int i = 0; i < size; i++) {
         approx_out[i] = 0;
     }

@@ -41,7 +41,7 @@ DwtResult wavedec(signal_t data, size_t size, Wavelet wavelet, uint16_t depth) {
             approx_out = malloc(size/2*sizeof(*approx_out));
             detail_out = malloc(size/2*sizeof(*detail_out));
 
-            step_transform(approx_in, approx_out, detail_out, size, wavelet);
+            dwt_1L(approx_in, approx_out, detail_out, size, wavelet);
 
             free(approx_in);
             approx_in = approx_out;
@@ -84,7 +84,7 @@ signal_t waverec(DwtResult data, Wavelet wavelet) {
             approx_out = malloc(2*band_size*sizeof(*approx_out));
             detail_in = data.detail[curr_depth - 1];
 
-            step_inverse_transform(approx_in, detail_in, approx_out, band_size*2, wavelet);
+            idwt_1L(approx_in, detail_in, approx_out, band_size*2, wavelet);
 
             free(approx_in);
             approx_in = approx_out;
