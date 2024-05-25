@@ -19,6 +19,24 @@
 
 #define FILENAME_BUFFER_SIZE 200
 
+void sub_timespec(struct timespec t1, struct timespec t2, struct timespec *td)
+{
+    const long NS_PER_SECOND = 1000000000;
+
+    td->tv_nsec = t2.tv_nsec - t1.tv_nsec;
+    td->tv_sec  = t2.tv_sec - t1.tv_sec;
+    if (td->tv_sec > 0 && td->tv_nsec < 0)
+    {
+        td->tv_nsec += NS_PER_SECOND;
+        td->tv_sec--;
+    }
+    else if (td->tv_sec < 0 && td->tv_nsec > 0)
+    {
+        td->tv_nsec -= NS_PER_SECOND;
+        td->tv_sec++;
+    }
+}
+
 void evaluate_noise_reduction_algorithm(
     signal_t input_data, 
     signal_t noise, 
@@ -29,7 +47,7 @@ void evaluate_noise_reduction_algorithm(
     double k,
     double m,
     FILE *result_file) {
-    clock_t execution_start, execution_end;
+    struct timespec execution_start, execution_end, execution_time;
 
     signal_t noisy_data = malloc(input_size*sizeof(*noisy_data));
     add(input_data, noise, noisy_data, input_size);
@@ -37,7 +55,7 @@ void evaluate_noise_reduction_algorithm(
     double input_mse = mse(input_data, noisy_data, input_size);
     double input_snr = snr(input_data, noise, input_size);
 
-    execution_start = clock();
+    clock_gettime(CLOCK_REALTIME, &execution_start);
 
     DwtResult transform = wavedec(noisy_data, input_size, wavelet, depth);
 
@@ -47,7 +65,7 @@ void evaluate_noise_reduction_algorithm(
 
     signal_t output_data = waverec(transform, wavelet);
 
-    execution_end = clock();
+    clock_gettime(CLOCK_REALTIME, &execution_end);
 
     signal_t remaining_noise = malloc(input_size*sizeof(*remaining_noise));
     subtract(output_data, input_data, remaining_noise, input_size);
@@ -55,22 +73,13 @@ void evaluate_noise_reduction_algorithm(
     double output_mse = mse(input_data, output_data, input_size);
     double output_snr = snr(input_data, remaining_noise, input_size);
 
-    // printf("Mother Wavelet: %s\n", wavelet.name);
-    // printf("Depth: %d\n", depth);
-    // printf("Threshold type: %s\n", threshold_type == soft ? "soft" : "hard");
-    // printf("k: %lf\n", k);
-    // printf("m: %lf\n", m);
-    // printf("Input SNR: %lf\n", input_snr);
-    // printf("Input MSE: %lf\n", input_mse);
-    // printf("Output SNR: %lf\n", output_snr);
-    // printf("Output MSE: %lf\n", output_mse);
-    // printf("Execution Time: %lf ms\n", ((double) execution_end - execution_start)/CLOCKS_PER_SEC*1000);
+    sub_timespec(execution_start, execution_end, &execution_time);
 
     fprintf(result_file, "%lf;", input_snr);
     fprintf(result_file, "%lf;", output_snr);
     fprintf(result_file, "%lf;", input_mse);
     fprintf(result_file, "%lf;", output_mse);
-    fprintf(result_file, "%lf\n", ((double) execution_end - execution_start)/CLOCKS_PER_SEC*1000);
+    fprintf(result_file, "%lf\n", ((double) execution_time.tv_nsec)/1000000);
 }
 
 int main(int argc, char* argv[]) {
@@ -85,9 +94,6 @@ int main(int argc, char* argv[]) {
     signal_t input_data;
     signal_t noise_data;
     size_t max_size, signal_size;
-
-    // char *input_filename = argv[1];
-    // char *noise_filename = argv[2];
 
     char filename_prefix[FILENAME_BUFFER_SIZE/2];
     char input_filename[FILENAME_BUFFER_SIZE];
@@ -107,9 +113,6 @@ int main(int argc, char* argv[]) {
 
     if (signal_size < 0)
         return -1;
-
-    // printf("Input: %s\n", input_filename);
-    // printf("Noise: %s\n", noise_filename);
 
     FILE *result_file = fopen("results.csv", "ab");
 
