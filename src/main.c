@@ -37,7 +37,7 @@ void sub_timespec(struct timespec t1, struct timespec t2, struct timespec *td)
     }
 }
 
-void evaluate_noise_reduction_algorithm(
+signal_t* evaluate_noise_reduction_algorithm(
     signal_t input_data, 
     signal_t noise, 
     size_t input_size,
@@ -80,6 +80,13 @@ void evaluate_noise_reduction_algorithm(
     fprintf(result_file, "%lf;", input_mse);
     fprintf(result_file, "%lf;", output_mse);
     fprintf(result_file, "%lf\n", ((double) execution_time.tv_nsec)/1000000);
+
+    signal_t* outputs = malloc(2*sizeof(signal_t));
+    
+    outputs[0] = noisy_data;
+    outputs[1] = output_data;
+
+    return outputs;
 }
 
 int main(int argc, char* argv[]) {
@@ -114,15 +121,21 @@ int main(int argc, char* argv[]) {
     if (signal_size < 0)
         return -1;
 
-    FILE *result_file = fopen("results.csv", "ab");
+    FILE *result_csv_file = fopen("results.csv", "ab");
+    FILE *result_wav_file = fopen("denoised.wav", "wb");
 
-    fprintf(result_file, "%s;%s;", argv[1], argv[2]);
+    fprintf(result_csv_file, "%s;%s;", argv[1], argv[2]);
 
-    evaluate_noise_reduction_algorithm(input_data, noise_data, signal_size, wavelet, depth, threshold_type, k, m, result_file);
+    signal_t* outputs = evaluate_noise_reduction_algorithm(input_data, noise_data, signal_size, wavelet, depth, threshold_type, k, m, result_csv_file);
+
+    save_output_file(outputs[0], "noisy.wav", input_filename);
+    save_output_file(outputs[1], "denoised.wav", input_filename);
 
     free(input_data);
     free(noise_data);
-    fclose(result_file);
+    free(outputs[0]);
+    free(outputs[1]);
+    fclose(result_csv_file);
 
     return 0;
 }

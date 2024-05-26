@@ -39,10 +39,32 @@ size_t read_input_files(signal_t *input_data, signal_t *noise_data, char *input_
     *noise_data = read_data(noise_file, noise_header);
     *noise_data = realloc(*noise_data, result_size*sizeof(sample_t));
 
-    free(input_file);
+    fclose(input_file);
     free(input_header);
-    free(noise_file);
+    fclose(noise_file);
     free(noise_header);
 
     return result_size;
+}
+
+void save_output_file(signal_t output_data, char *output_filename, char* input_filename) {
+    FILE *input_file, *output_file;
+    union header_data *input_header;
+    size_t input_size, noise_size, result_size;
+
+    input_file = fopen(input_filename, "rb");
+    output_file = fopen(output_filename, "wb");
+
+    if (input_file == NULL)
+        return;
+
+    input_header = malloc(sizeof(union header_data));
+
+    read_header(input_file, input_header, input_filename);
+
+    write_wav(output_file, input_header, output_data, output_filename);
+
+    fclose(input_file);
+    free(input_header);
+    fclose(output_file);
 }
