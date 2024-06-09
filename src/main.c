@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <omp.h>
 #include <math.h>
 
 #include "utils.h"
@@ -11,8 +10,6 @@
 
 #define SIGNAL_DURATION_LIMIT_SECONDS 30
 #define SIGNAL_SAMPLE_RATE 16000
-#define NUM_THREADS 8
-#define MAX_THREAD_COUNT 32
 
 #define FILENAME_BUFFER_SIZE 200
 #define CONFIG_ALIAS_BUFFER_SIZE 50
@@ -119,9 +116,6 @@ int main(int argc, char* argv[]) {
 
     snprintf(config_alias, CONFIG_ALIAS_BUFFER_SIZE, "%s-%d-%s-%.2lf-%.2lf",
         wavelet.name, depth, thresh_type_str, k, m);
-
-    omp_set_dynamic(0);
-    omp_set_num_threads(NUM_THREADS > MAX_THREAD_COUNT ? MAX_THREAD_COUNT : NUM_THREADS);
 
     max_size = SIGNAL_DURATION_LIMIT_SECONDS*SIGNAL_SAMPLE_RATE;
     signal_size = read_input_files(&input_data, &noise_data, input_filename, noise_filename, max_size);

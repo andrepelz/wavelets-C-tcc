@@ -1,5 +1,4 @@
 #include "wavelet_transform_internal.h"
-#include <omp.h>
 
 void dwt_1L(double *approx_in, double *approx_out, double *detail_out, size_t size, Wavelet wavelet) {
     for(int i = 0; i < size/2; i++) {
