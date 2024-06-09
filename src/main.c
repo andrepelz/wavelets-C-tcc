@@ -9,15 +9,13 @@
 #include "wavelet_transform.h"
 #include "wavelet_thresholding.h"
 
-#define MOTHER_WAVELET "sym8"
-#define INPUT_FILENAME "inputs/speech-librivox-0034/speech-librivox-0034.wav"
-#define NOISE_FILENAME "inputs/speech-librivox-0034/noise_white_noise_10db.wav"
 #define SIGNAL_DURATION_LIMIT_SECONDS 30
 #define SIGNAL_SAMPLE_RATE 16000
 #define NUM_THREADS 8
 #define MAX_THREAD_COUNT 32
 
 #define FILENAME_BUFFER_SIZE 200
+#define CONFIG_ALIAS_BUFFER_SIZE 50
 
 void sub_timespec(struct timespec t1, struct timespec t2, struct timespec *td)
 {
@@ -90,13 +88,21 @@ signal_t* evaluate_noise_reduction_algorithm(
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 3)
+    if (argc != 8)
         return -1;
 
-    Wavelet wavelet = get_wavelet(MOTHER_WAVELET);
-    threshold_t threshold_type = soft;
-    uint16_t depth = 5;
-    double k = 1, m = 1;
+    Wavelet wavelet = get_wavelet(argv[3]);
+    uint16_t depth = atof(argv[4]);
+    char *thresh_type_str = argv[5];
+    threshold_t threshold_type = get_threshold(thresh_type_str);
+    double k = atof(argv[6]), m = atof(argv[7]);
+
+    if(wavelet.filter_size == 0
+        || threshold_type < 0 || threshold_type > 1
+        || depth < 0
+        || k < 0 || k > 1
+        || m < 0 || m > 1)
+        return -1;
     
     signal_t input_data;
     signal_t noise_data;
@@ -105,12 +111,14 @@ int main(int argc, char* argv[]) {
     char filename_prefix[FILENAME_BUFFER_SIZE/2];
     char input_filename[FILENAME_BUFFER_SIZE];
     char noise_filename[FILENAME_BUFFER_SIZE];
+    char config_alias[CONFIG_ALIAS_BUFFER_SIZE];
 
-    int snprintf_check = 0;
-
-    snprintf_check += snprintf(filename_prefix, FILENAME_BUFFER_SIZE, "inputs/%s", argv[1]);
+    snprintf(filename_prefix, FILENAME_BUFFER_SIZE, "inputs/%s", argv[1]);
     snprintf(input_filename, FILENAME_BUFFER_SIZE, "%s/%s.wav", filename_prefix, argv[1]);
     snprintf(noise_filename, FILENAME_BUFFER_SIZE, "%s/noise_%s.wav", filename_prefix, argv[2]);
+
+    snprintf(config_alias, CONFIG_ALIAS_BUFFER_SIZE, "%s-%d-%s-%.2lf-%.2lf",
+        wavelet.name, depth, thresh_type_str, k, m);
 
     omp_set_dynamic(0);
     omp_set_num_threads(NUM_THREADS > MAX_THREAD_COUNT ? MAX_THREAD_COUNT : NUM_THREADS);
@@ -124,12 +132,12 @@ int main(int argc, char* argv[]) {
     FILE *result_csv_file = fopen("results.csv", "ab");
     FILE *result_wav_file = fopen("denoised.wav", "wb");
 
-    fprintf(result_csv_file, "%s;%s;", argv[1], argv[2]);
+    fprintf(result_csv_file, "%s;%s;%s;", argv[1], argv[2], config_alias);
 
     signal_t* outputs = evaluate_noise_reduction_algorithm(input_data, noise_data, signal_size, wavelet, depth, threshold_type, k, m, result_csv_file);
 
-    save_output_file(outputs[0], "noisy.wav", input_filename);
-    save_output_file(outputs[1], "denoised.wav", input_filename);
+    // save_output_file(outputs[0], "noisy.wav", input_filename);
+    // save_output_file(outputs[1], "denoised.wav", input_filename);
 
     free(input_data);
     free(noise_data);

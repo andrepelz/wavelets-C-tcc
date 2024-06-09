@@ -2,6 +2,18 @@
 #include "wavelet_thresholding.h"
 
 #include <math.h>
+#include <string.h>
+
+threshold_t get_threshold(char* name)
+{
+    if(strcmp(name, "soft") == 0)
+        return soft;
+
+    if(strcmp(name, "hard") == 0)
+        return hard;
+    
+    return -1;
+}
 
 void coeffs_apply_threshold(double* input, size_t size, double threshold, threshold_t type) {
     thresholding_func func = get_thresholding_function(type);
