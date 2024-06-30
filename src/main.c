@@ -14,6 +14,13 @@
 #define FILENAME_BUFFER_SIZE 200
 #define CONFIG_ALIAS_BUFFER_SIZE 50
 
+/**
+ * @brief Função que subtrai duas timespec.
+ * 
+ * @param t1 timespec do lado esquerdo da subtração
+ * @param t2 timespec do lado direito da subtração
+ * @param td timespec com resultado da subtração
+ */
 void sub_timespec(struct timespec t1, struct timespec t2, struct timespec *td)
 {
     const long NS_PER_SECOND = 1000000000;
@@ -32,6 +39,20 @@ void sub_timespec(struct timespec t1, struct timespec t2, struct timespec *td)
     }
 }
 
+/**
+ * @brief Função de avaliação do algoritmo de redução de ruídos usando Transformada Wavelet.
+ * 
+ * @param input_data vetor com sinal de voz limpa de entrada
+ * @param noise vetor com sinal de ruído
+ * @param input_size tamanho dos vetores de voz de entrada e de ruído
+ * @param wavelet Wavelet Mãe
+ * @param depth nível da transformada
+ * @param threshold_type tipo de thresholding
+ * @param k coeficiente k
+ * @param m coeficiente m
+ * @param result_file arquivo para salvar resultados do teste em formato CSV
+ * @return signal_t*
+ */
 signal_t* evaluate_noise_reduction_algorithm(
     signal_t input_data, 
     signal_t noise, 
@@ -84,6 +105,21 @@ signal_t* evaluate_noise_reduction_algorithm(
     return outputs;
 }
 
+/**
+ * @brief Função principal do programa.
+ * 
+ * @param argc número de argumentos da linha de comando. Espera-se 8
+ * @param argv vetor de argumentos da linha de comando
+ * @param argv[0] nome do programa
+ * @param argv[1] nome do arquivo de voz limpa de entrada com extensão
+ * @param argv[2] nome do arquivo de ruído com extensão
+ * @param argv[3] nome da Wavelet Mãe
+ * @param argv[4] nível da transformada
+ * @param argv[5] nome do tipo de thresholding
+ * @param argv[6] coeficiente k
+ * @param argv[7] coeficiente m
+ * @return int 
+ */
 int main(int argc, char* argv[]) {
     if (argc != 8)
         return -1;
