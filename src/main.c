@@ -16,7 +16,6 @@
 
 /**
  * @brief Função que subtrai duas timespec.
- * 
  * @param t1 timespec do lado esquerdo da subtração
  * @param t2 timespec do lado direito da subtração
  * @param td timespec com resultado da subtração
@@ -41,7 +40,6 @@ void sub_timespec(struct timespec t1, struct timespec t2, struct timespec *td)
 
 /**
  * @brief Função de avaliação do algoritmo de redução de ruídos usando Transformada Wavelet.
- * 
  * @param input_data vetor com sinal de voz limpa de entrada
  * @param noise vetor com sinal de ruído
  * @param input_size tamanho dos vetores de voz de entrada e de ruído

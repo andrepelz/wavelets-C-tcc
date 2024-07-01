@@ -50,7 +50,6 @@ size_t read_input_files(signal_t *input_data, signal_t *noise_data, char *input_
 void save_output_file(signal_t output_data, char *output_filename, char* input_filename) {
     FILE *input_file, *output_file;
     union header_data *input_header;
-    size_t input_size, noise_size, result_size;
 
     input_file = fopen(input_filename, "rb");
     output_file = fopen(output_filename, "wb");
