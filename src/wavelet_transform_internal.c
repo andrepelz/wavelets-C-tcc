@@ -8,6 +8,8 @@ void dwt_1L(double *approx_in, double *approx_out, double *detail_out, size_t si
 
     int t, j, l;
 
+    // loops for realizam a convolução dos filtros da Wavelet Mãe com o sinal de entrada,
+    // seguindo o algoritmo de Percival e Walden (2000, p. 80)
     for(t = 0; t < size/2; t++) {
         j = 2*t + 1;
 
@@ -29,6 +31,8 @@ void idwt_1L(double *approx_in, double *detail_in, double *approx_out, size_t si
 
     int t, j, l;
 
+    // loops for realizam a correlação cruzada dos filtros da Wavelet Mãe com os sinais de entrada,
+    // seguindo o algoritmo de Percival e Walden (2000, p. 80)
     for(t = 0; t < size/2; t++) {
         j = t;
 

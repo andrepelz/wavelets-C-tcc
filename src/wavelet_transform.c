@@ -37,6 +37,8 @@ DwtResult wavedec(signal_t data, size_t size, Wavelet wavelet, uint16_t depth) {
             approx_in[i] = i < result.original_size ? (double) data[i] : 0;
         }
 
+        // loop while realiza execução recursiva da transformada de nível único,
+        // seguindo os algoritmos de bancos de filtro
         while(size >= 2 && curr_depth < depth) {
             approx_out = malloc(size/2*sizeof(*approx_out));
             detail_out = malloc(size/2*sizeof(*detail_out));
@@ -80,6 +82,8 @@ signal_t waverec(DwtResult data, Wavelet wavelet) {
         approx_in = malloc(band_size*sizeof(*approx_in));
         memcpy(approx_in, data.approximation, band_size*sizeof(*approx_in));
 
+        // loop while realiza execução recursiva da transformada de nível único,
+        // seguindo os algoritmos de bancos de filtro
         while(curr_depth > 0) {
             approx_out = malloc(2*band_size*sizeof(*approx_out));
             detail_in = data.detail[curr_depth - 1];
